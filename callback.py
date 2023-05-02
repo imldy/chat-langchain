@@ -28,6 +28,6 @@ class QuestionGenCallbackHandler(AsyncCallbackHandler):
     ) -> None:
         """Run when LLM starts running."""
         resp = ChatResponse(
-            sender="bot", message="Synthesizing question...", type="info"
+            sender="bot", message="思考中...", type="info"
         )
         await self.websocket.send_json(resp.dict())
