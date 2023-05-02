@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Chat Your Data</title>
+    <title>与社交型虚拟人聊天</title>
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     <style>
         .chat-body {
@@ -60,16 +60,16 @@
             if (data.sender === "bot") {
                 if (data.type === "start") {
                     var header = document.getElementById('header');
-                    header.innerHTML = "Computing answer...";
+                    header.innerHTML = "虚拟人思考中...";
                     var div = document.createElement('div');
                     div.className = 'server-message';
                     var p = document.createElement('p');
-                    p.innerHTML = "<strong>" + "Chatbot: " + "</strong>";
+                    p.innerHTML = "<strong>" + "虚拟人: " + "</strong>";
                     div.appendChild(p);
                     messages.appendChild(div);
                 } else if (data.type === "stream") {
                     var header = document.getElementById('header');
-                    header.innerHTML = "Chatbot is typing...";
+                    header.innerHTML = "虚拟人说话中...";
                     var p = messages.lastChild.lastChild;
                     if (data.message === "\n") {
                         p.innerHTML += "<br>";
@@ -81,15 +81,15 @@
                     header.innerHTML = data.message;
                 } else if (data.type === "end") {
                     var header = document.getElementById('header');
-                    header.innerHTML = "Ask a question";
+                    header.innerHTML = "与Ta交流吧";
                     var button = document.getElementById('send');
-                    button.innerHTML = "Send";
+                    button.innerHTML = "发送";
                     button.disabled = false;
                 } else if (data.type === "error") {
                     var header = document.getElementById('header');
-                    header.innerHTML = "Ask a question";
+                    header.innerHTML = "与Ta交流吧";
                     var button = document.getElementById('send');
-                    button.innerHTML = "Send";
+                    button.innerHTML = "发送";
                     button.disabled = false;
                     var p = messages.lastChild.lastChild;
                     p.innerHTML += data.message;
@@ -98,7 +98,7 @@
                 var div = document.createElement('div');
                 div.className = 'client-message';
                 var p = document.createElement('p');
-                p.innerHTML = "<strong>" + "You: " + "</strong>";
+                p.innerHTML = "<strong>" + "你: " + "</strong>";
                 p.innerHTML += data.message;
                 div.appendChild(p);
                 messages.appendChild(div);
@@ -118,7 +118,7 @@
 
             // Turn the button into a loading button
             var button = document.getElementById('send');
-            button.innerHTML = "Loading...";
+            button.innerHTML = "思考...";
             button.disabled = true;
         }
     </script>
@@ -126,14 +126,14 @@
 <body class="bg-black">
     <div class="chat-body card">
         <div class="card-body p-5">
-            <h4 class="card-title text-center text-xl font-medium"> Chat Your Data </h4>
-            <p class="card-text text-center text-sm" id="header"> Ask a question </p>
+            <h4 class="card-title text-center text-xl font-medium"> 与社交型虚拟人聊天 </h4>
+            <p class="card-text text-center text-sm" id="header"> 与 Ta 交流吧 </p>
             <hr class="border-gray-500 mb-5" style="margin-top: 20px;">
             <div id="messages" class="overflow-auto" style="max-height: 500px;">
             </div>
             <form action="" class="form-inline mt-5" id="chat-form" onsubmit="sendMessage(event)">
-                <input type="text" class="form-control" placeholder="Write your question" id="messageText">
-                <button id="send" type="submit" class="btn btn-primary">Send</button>
+                <input type="text" class="form-control" placeholder="你有什么想说的？" id="messageText">
+                <button id="send" type="submit" class="btn btn-primary">发送</button>
             </form>
         </div>
     </div>
