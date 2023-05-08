@@ -6,10 +6,13 @@ from typing import Optional
 
 from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
 from fastapi.templating import Jinja2Templates
+from langchain import FAISS
+from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import VectorStore
 
 from callback import QuestionGenCallbackHandler, StreamingLLMCallbackHandler
 from query_data import get_chain
+from query_data import get_qa_chain
 from schemas import ChatResponse
 
 app = FastAPI()
@@ -25,6 +28,16 @@ async def startup_event():
     with open("vectorstore.pkl", "rb") as f:
         global vectorstore
         vectorstore = pickle.load(f)
+
+    # 获取一个问答链
+    global qa_chain
+    qa_chain = get_qa_chain()
+    # embedding将高维的原始数据映射到低维，用于计算文本相似度
+    embedding = OpenAIEmbeddings()
+    # 获得一个附属资料的向量存储
+    # 此对象用于存储文档和关联的嵌入，并提供通过嵌入查找相关文档的快速方法。
+    global fs
+    fs = FAISS.load_local("HHFS", embedding)
 
 
 @app.get("/")
