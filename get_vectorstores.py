@@ -6,7 +6,7 @@ from langchain.vectorstores import FAISS
 
 def 获得黄海集市资料的Vectorstores():
     # 加载文档
-    loader = DirectoryLoader('黄海集市资料')
+    loader = DirectoryLoader('HHData')
     raw_doc = loader.load()
 
     # 切分文档
