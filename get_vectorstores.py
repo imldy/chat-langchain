@@ -21,7 +21,7 @@ def 获得黄海集市资料的Vectorstores():
     embedding = OpenAIEmbeddings()
     # FAISS是Facebook AI 相似性搜索 (Faiss)，是一个用于高效相似性搜索和密集向量聚类的库
     fs: FAISS = FAISS.from_documents(documents=doc, embedding=embedding)
-    fs.save_local("hhjsdoc")
+    fs.save_local("HHFS")
 
 
 if __name__ == '__main__':
