@@ -45,6 +45,17 @@ async def get(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 
+@app.get("/answer")
+async def get_answer(question: str):
+    if '' != question:
+        # 做向量搜索，查询到相关文档内容（参考资料）
+        docs = fs.similarity_search(query=question)
+        answer = qa_chain.run(input_documents=docs, question=question)
+    else:
+        answer = ""
+    return {"code": 200, "msg": "OK", "answer": answer}
+
+
 @app.websocket("/chat")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
