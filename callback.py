@@ -26,7 +26,7 @@ class QuestionGenCallbackHandler(AsyncCallbackHandler):
     async def on_llm_start(
         self, serialized: Dict[str, Any], prompts: List[str], **kwargs: Any
     ) -> None:
-        """Run when LLM starts running."""
+        """当LLM开始运行时执行此方法"""
         resp = ChatResponse(
             sender="bot", message="思考中...", type="info"
         )
