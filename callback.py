@@ -7,7 +7,7 @@ from schemas import ChatResponse
 
 
 class StreamingLLMCallbackHandler(AsyncCallbackHandler):
-    """Callback handler for streaming LLM responses."""
+    """用于流式LLM响应的回调处理程序。."""
 
     def __init__(self, websocket):
         self.websocket = websocket
@@ -18,7 +18,7 @@ class StreamingLLMCallbackHandler(AsyncCallbackHandler):
 
 
 class QuestionGenCallbackHandler(AsyncCallbackHandler):
-    """Callback handler for question generation."""
+    """用于生成问题的回调处理程序"""
 
     def __init__(self, websocket):
         self.websocket = websocket

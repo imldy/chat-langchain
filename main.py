@@ -59,18 +59,18 @@ async def websocket_endpoint(websocket: WebSocket):
     stream_handler = StreamingLLMCallbackHandler(websocket)
     chat_history = []
     qa_chain = get_chain(vectorstore, question_handler, stream_handler)
-    # Use the below line instead of the above line to enable tracing
-    # Ensure `langchain-server` is running
+    # 使用以下代码启用跟踪（tracing）
+    # 确保 `langchain-server` 正在运行
     # qa_chain = get_chain(vectorstore, question_handler, stream_handler, tracing=True)
 
     while True:
         try:
-            # Receive and send back the client message
+            # 接收并返回客户端信息
             question = await websocket.receive_text()
             resp = ChatResponse(sender="you", message=question, type="stream")
             await websocket.send_json(resp.dict())
 
-            # Construct a response
+            # 构造响应
             start_resp = ChatResponse(sender="bot", message="", type="start")
             await websocket.send_json(start_resp.dict())
 
@@ -82,13 +82,13 @@ async def websocket_endpoint(websocket: WebSocket):
             end_resp = ChatResponse(sender="bot", message="", type="end")
             await websocket.send_json(end_resp.dict())
         except WebSocketDisconnect:
-            logging.info("websocket disconnect")
+            logging.info("websocket 连接断开")
             break
         except Exception as e:
             logging.error(e)
             resp = ChatResponse(
                 sender="bot",
-                message="Sorry, something went wrong. Try again.",
+                message="抱歉，遇到了一些问题，请重试",
                 type="error",
             )
             await websocket.send_json(resp.dict())

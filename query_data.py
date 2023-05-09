@@ -13,9 +13,9 @@ from prompts import HHJS_QA_PROMPT
 def get_chain(
     vectorstore: VectorStore, question_handler, stream_handler, tracing: bool = False
 ) -> ConversationalRetrievalChain:
-    """Create a ConversationalRetrievalChain for question/answering."""
-    # Construct a ConversationalRetrievalChain with a streaming llm for combine docs
-    # and a separate, non-streaming llm for question generation
+    """为问/回创建一个 ConversationalRetrievalChain"""
+    # 使用流式llm结合文档构建ConversationalRetrievalChain
+    # 并使用单独的非流式llm生成问题
     manager = AsyncCallbackManager([])
     question_manager = AsyncCallbackManager([question_handler])
     stream_manager = AsyncCallbackManager([stream_handler])
