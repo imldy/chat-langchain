@@ -55,9 +55,12 @@ async def get_answer(question: str):
 @app.websocket("/chat")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
+    # 获得一个问题生成回调处理器
     question_handler = QuestionGenCallbackHandler(websocket)
+    # 获得一个流式LLM回调处理器
     stream_handler = StreamingLLMCallbackHandler(websocket)
     chat_history = []
+    # 获得用于流式响应用户的QA链
     qa_chain = get_chain(vectorstore, question_handler, stream_handler)
     # 使用以下代码启用跟踪（tracing）
     # 确保 `langchain-server` 正在运行
@@ -70,15 +73,16 @@ async def websocket_endpoint(websocket: WebSocket):
             resp = ChatResponse(sender="you", message=question, type="stream")
             await websocket.send_json(resp.dict())
 
-            # 构造响应
+            # 构造返回的开始响应
             start_resp = ChatResponse(sender="bot", message="", type="start")
             await websocket.send_json(start_resp.dict())
-
+            # 传入本次问题与历史记录，并等待流式QA链将生成的全部结果（token）返回
             result = await qa_chain.acall(
                 {"question": question, "chat_history": chat_history}
             )
+            # 将本次问答添加至历史记录列表
             chat_history.append((question, result["answer"]))
-
+            # 构造返回的结束响应
             end_resp = ChatResponse(sender="bot", message="", type="end")
             await websocket.send_json(end_resp.dict())
         except WebSocketDisconnect:

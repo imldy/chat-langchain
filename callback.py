@@ -13,6 +13,8 @@ class StreamingLLMCallbackHandler(AsyncCallbackHandler):
         self.websocket = websocket
 
     async def on_llm_new_token(self, token: str, **kwargs: Any) -> None:
+        """流式LLM返回新的token时执行此方法"""
+        # 使用建立的websocket向前端流式发送新token
         resp = ChatResponse(sender="bot", message=token, type="stream")
         await self.websocket.send_json(resp.dict())
 
