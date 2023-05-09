@@ -23,12 +23,6 @@ vectorstore: Optional[VectorStore] = None
 @app.on_event("startup")
 async def startup_event():
     logging.info("loading vectorstore")
-    if not Path("vectorstore.pkl").exists():
-        raise ValueError("vectorstore.pkl does not exist, please run ingest.py first")
-    with open("vectorstore.pkl", "rb") as f:
-        global vectorstore
-        vectorstore = pickle.load(f)
-
     # 获取一个问答链
     global qa_chain
     qa_chain = get_qa_chain()
@@ -38,6 +32,8 @@ async def startup_event():
     # 此对象用于存储文档和关联的嵌入，并提供通过嵌入查找相关文档的快速方法。
     global fs
     fs = FAISS.load_local("HHFS", embedding)
+    global vectorstore
+    vectorstore = fs
 
 
 @app.get("/")
