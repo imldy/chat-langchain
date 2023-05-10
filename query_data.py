@@ -42,18 +42,18 @@ def get_chain(
         temperature=0,
     )
 
-    # 创建一个生成问题的链（使用LLM与构造问题的prompt）作为问题生成器
+    # 创建一个生成问题的链（使用LLM与构造问题的prompt模板）作为问题生成器
     question_generator = LLMChain(
         llm=question_gen_llm, prompt=CONDENSE_QUESTION_PROMPT_TEMPLATE, callback_manager=manager
     )
-    # 创建一个使用文档生成回答的链（使用流式LLM与问答prompt）
+    # 创建一个使用文档生成回答的链（使用流式LLM与问答prompt模板）
     doc_chain = load_qa_chain(
         streaming_llm, chain_type="stuff", prompt=QA_PROMPT_TEMPLATE, callback_manager=manager
     )
 
     qa = ConversationalRetrievalChain(
         retriever=vectorstore.as_retriever(),
-        # 需要使用使用文档生成回答的链
+        # 需要使用可以使用文档与prompt模板生成回答的链
         combine_docs_chain=doc_chain,
         # 需要一个问题生成器
         question_generator=question_generator,
