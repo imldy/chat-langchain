@@ -11,7 +11,7 @@ from prompts import HHJS_QA_PROMPT, QA_PROMPT_TEMPLATE, CONDENSE_QUESTION_PROMPT
 def get_chain(
     vectorstore: VectorStore, question_handler, stream_handler, tracing: bool = False
 ) -> ConversationalRetrievalChain:
-    """为问/回创建一个 ConversationalRetrievalChain"""
+    """为问题/回答的流程创建一个 ConversationalRetrievalChain"""
     # 使用流式llm结合文档构建ConversationalRetrievalChain
     # 并使用单独的非流式llm生成问题
     # 获取异步回调管理器
