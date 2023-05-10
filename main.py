@@ -20,6 +20,7 @@ templates = Jinja2Templates(directory="templates")
 vectorstore: Optional[VectorStore] = None
 
 
+# 启动
 @app.on_event("startup")
 async def startup_event():
     logging.info("loading vectorstore")
