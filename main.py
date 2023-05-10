@@ -36,6 +36,20 @@ async def startup_event():
     vectorstore = fs
 
 
+# 更新vectorstore
+@app.post("/update_vectorstore")
+async def update_fs_route(directory: str):
+    from index import update_vectorstore
+    await update_vectorstore(vectorstore=vectorstore, directory=directory)
+    return {"message": "vectorstore updated successfully"}
+
+
+# 关闭
+@app.on_event("shutdown")
+async def shutdown_event():
+    fs.save_local("HHFS")
+
+
 @app.get("/")
 async def get(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
