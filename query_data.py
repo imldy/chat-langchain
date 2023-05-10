@@ -6,7 +6,7 @@ from langchain.chains.llm import LLMChain
 from langchain.chains.question_answering import load_qa_chain
 from langchain.chat_models import ChatOpenAI
 from langchain.vectorstores.base import VectorStore
-from prompts import HHJS_QA_PROMPT, QA_PROMPT, CONDENSE_QUESTION_PROMPT
+from prompts import HHJS_QA_PROMPT, QA_PROMPT_TEMPLATE, CONDENSE_QUESTION_PROMPT_TEMPLATE
 
 def get_chain(
     vectorstore: VectorStore, question_handler, stream_handler, tracing: bool = False
@@ -44,11 +44,11 @@ def get_chain(
 
     # 创建一个生成问题的链（使用LLM与构造问题的prompt）作为问题生成器
     question_generator = LLMChain(
-        llm=question_gen_llm, prompt=CONDENSE_QUESTION_PROMPT, callback_manager=manager
+        llm=question_gen_llm, prompt=CONDENSE_QUESTION_PROMPT_TEMPLATE, callback_manager=manager
     )
     # 创建一个使用文档生成回答的链（使用流式LLM与问答prompt）
     doc_chain = load_qa_chain(
-        streaming_llm, chain_type="stuff", prompt=QA_PROMPT, callback_manager=manager
+        streaming_llm, chain_type="stuff", prompt=QA_PROMPT_TEMPLATE, callback_manager=manager
     )
 
     qa = ConversationalRetrievalChain(
