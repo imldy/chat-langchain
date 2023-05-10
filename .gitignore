@@ -135,5 +135,7 @@ dmypy.json
 
 .DS_Store
 
-vectorstore.pkl
+vectorstores
+HHFS
+HHData
 langchain.readthedocs.io/
