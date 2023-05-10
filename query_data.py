@@ -2,13 +2,11 @@
 from langchain.callbacks.manager import AsyncCallbackManager
 from langchain.callbacks.tracers import LangChainTracer
 from langchain.chains import ConversationalRetrievalChain
-from langchain.chains.chat_vector_db.prompts import (CONDENSE_QUESTION_PROMPT,
-                                                     QA_PROMPT)
 from langchain.chains.llm import LLMChain
 from langchain.chains.question_answering import load_qa_chain
 from langchain.chat_models import ChatOpenAI
 from langchain.vectorstores.base import VectorStore
-from prompts import HHJS_QA_PROMPT
+from prompts import HHJS_QA_PROMPT, QA_PROMPT, CONDENSE_QUESTION_PROMPT
 
 def get_chain(
     vectorstore: VectorStore, question_handler, stream_handler, tracing: bool = False
