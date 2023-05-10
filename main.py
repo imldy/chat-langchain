@@ -42,7 +42,7 @@ async def startup_event():
 async def update_fs_route(directory: str):
     from index import update_vectorstore
     await update_vectorstore(vectorstore=vectorstore, directory=directory)
-    return {"message": "vectorstore updated successfully"}
+    return {"code": 200, "msg": "OK"}
 
 
 # 关闭
