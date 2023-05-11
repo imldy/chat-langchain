@@ -50,6 +50,22 @@
           margin-top: 10px;
         }
     </style>
+
+</head>
+<body class="bg-black">
+    <div class="chat-body card">
+        <div class="card-body p-5">
+            <h4 class="card-title text-center text-xl font-medium"> 与问答型虚拟人聊天 </h4>
+            <p class="card-text text-center text-sm" id="header"> 与 Ta 交流吧 </p>
+            <hr class="border-gray-500 mb-5" style="margin-top: 20px;">
+            <div id="messages" class="overflow-auto" style="max-height: 500px;">
+            </div>
+            <form action="" class="form-inline mt-5" id="chat-form" onsubmit="sendMessage(event)">
+                <input type="text" class="form-control" placeholder="你有什么想说的？" id="messageText">
+                <button id="send" type="submit" class="btn btn-primary">发送</button>
+            </form>
+        </div>
+    </div>
     <script>
         // 获取元素
         const messages = document.getElementById('messages');
@@ -146,20 +162,5 @@
             }
         });
     </script>
-</head>
-<body class="bg-black">
-    <div class="chat-body card">
-        <div class="card-body p-5">
-            <h4 class="card-title text-center text-xl font-medium"> 与问答型虚拟人聊天 </h4>
-            <p class="card-text text-center text-sm" id="header"> 与 Ta 交流吧 </p>
-            <hr class="border-gray-500 mb-5" style="margin-top: 20px;">
-            <div id="messages" class="overflow-auto" style="max-height: 500px;">
-            </div>
-            <form action="" class="form-inline mt-5" id="chat-form" onsubmit="sendMessage(event)">
-                <input type="text" class="form-control" placeholder="你有什么想说的？" id="messageText">
-                <button id="send" type="submit" class="btn btn-primary">发送</button>
-            </form>
-        </div>
-    </div>
 </body>
 </html>
