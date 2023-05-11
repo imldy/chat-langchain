@@ -73,8 +73,11 @@
         const MESSAGE_TEXT = document.getElementById('messageText');
         const SEND_BUTTON = document.getElementById('send');
 
-        // 创建 WebSocket
-        const ws = new WebSocket("ws://localhost:9000/chat");
+        // 创建 WebSocket，主机地址根据当前用户访问地址获取
+        const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+        const host = window.location.host;
+        const path = "/chat";
+        const ws = new WebSocket(`${protocol}//${host}${path}`);
 
         // WebSocket 接收消息
         ws.onmessage = function (event) {
