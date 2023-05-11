@@ -95,13 +95,13 @@
                         header.innerHTML = "虚拟人说话中...";
                         appendToLastMessage(data.message);
                         break;
-                    case "info":
-                        header.innerHTML = data.message;
-                        break;
                     case "end":
                         header.innerHTML = "与 Ta 交流吧";
                         // 修改为可发送的
                         updateSendButton("sendable")
+                        break;
+                    case "info":
+                        header.innerHTML = data.message;
                         break;
                     case "error":
                         header.innerHTML = "与 Ta 交流吧";
