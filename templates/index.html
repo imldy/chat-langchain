@@ -51,14 +51,20 @@
         }
     </style>
     <script>
-        const endpoint = "ws://localhost:9000/chat";
-        const ws = new WebSocket(endpoint);
+        // 获取元素
         const messages = document.getElementById('messages');
         const header = document.getElementById('header');
-        const button = document.getElementById('send');
+        const MESSAGE_TEXT = document.getElementById('messageText');
+        const SEND_BUTTON = document.getElementById('send');
 
+        // 创建 WebSocket
+        const ws = new WebSocket("ws://localhost:9000/chat");
+
+        // WebSocket 接收消息
         ws.onmessage = function (event) {
             const data = JSON.parse(event.data);
+
+            // 发送者为虚拟人
             if (data.sender === "bot") {
                 switch (data.type) {
                     case "start":
@@ -74,23 +80,26 @@
                         break;
                     case "end":
                         header.innerHTML = "与 Ta 交流吧";
-                        button.innerHTML = "发送";
-                        button.disabled = false;
                         break;
                     case "error":
                         header.innerHTML = "与 Ta 交流吧";
-                        button.innerHTML = "发送";
-                        button.disabled = false;
                         appendToLastMessage(data.message);
                         break;
                 }
-            } else {
+
+                // 改变发送按钮状态
+                SEND_BUTTON.innerHTML = "发送";
+                SEND_BUTTON.disabled = false;
+
+            } else { // 发送者为用户
                 messages.appendChild(createMessage("你", data.message));
             }
-            // Scroll to the bottom of the chat
+
+            // 滚动到聊天记录底部
             messages.scrollTop = messages.scrollHeight;
         };
 
+        // 创建消息元素
         function createMessage(sender, message) {
             const div = document.createElement('div');
             div.className = sender === "bot" ? 'server-message' : 'client-message';
@@ -100,8 +109,9 @@
             return div;
         }
 
+        // 在最后一条消息后追加新消息
         function appendToLastMessage(message) {
-            const p = messages.lastChild.lastChild;
+            const p = messages.lastElementChild.lastElementChild;
             if (message === "\n") {
                 p.innerHTML += "<br>";
             } else {
@@ -109,23 +119,32 @@
             }
         }
 
-        // Send message to server
-        const MESSAGE_TEXT = document.getElementById('messageText');
-        const SEND_BUTTON = document.getElementById('send');
-
+        // 发送消息事件
         function sendMessage(event) {
             event.preventDefault();
-            var message = MESSAGE_TEXT.value;
-            if (message === "") {
+            const message = MESSAGE_TEXT.value.trim();
+            if (!message) {
                 return;
             }
-            ws.send(message);
-            MESSAGE_TEXT.value = "";
 
-            // Turn the button into a loading button
+            // 发送消息给服务端
+            ws.send(message);
+
+            // 改变发送按钮状态
             SEND_BUTTON.innerHTML = "思考...";
             SEND_BUTTON.disabled = true;
+
+            // 清空输入框
+            MESSAGE_TEXT.value = "";
         }
+
+        // 添加发送消息事件监听
+        SEND_BUTTON.addEventListener('click', sendMessage);
+        MESSAGE_TEXT.addEventListener('keydown', function (event) {
+            if (event.key === "Enter") {
+                sendMessage(event);
+            }
+        });
     </script>
 </head>
 <body class="bg-black">
