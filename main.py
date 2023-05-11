@@ -9,6 +9,7 @@ from fastapi.templating import Jinja2Templates
 from langchain import FAISS
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import VectorStore
+from starlette.staticfiles import StaticFiles
 
 from callback import QuestionGenCallbackHandler, StreamingLLMCallbackHandler
 from query_data import get_chain
@@ -17,6 +18,7 @@ from schemas import ChatResponse
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 vectorstore: Optional[VectorStore] = None
 
 
