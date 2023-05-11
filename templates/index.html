@@ -100,16 +100,16 @@
                         break;
                     case "end":
                         header.innerHTML = "与 Ta 交流吧";
+                        // 修改为可发送的
+                        updateSendButton("sendable")
                         break;
                     case "error":
                         header.innerHTML = "与 Ta 交流吧";
                         appendToLastMessage(data.message);
+                        // 修改为可发送的
+                        updateSendButton("sendable")
                         break;
                 }
-
-                // 改变发送按钮状态
-                SEND_BUTTON.innerHTML = "发送";
-                SEND_BUTTON.disabled = false;
 
             } else { // 发送者为用户
                 messages.appendChild(createMessage("你", data.message));
@@ -139,6 +139,21 @@
             }
         }
 
+        // 封装修改按钮状态的方法，根据传入参数修改发送按钮状态
+        function updateSendButton(status) {
+            if (status === 'thinking') {
+                SEND_BUTTON.innerHTML = "思考中";
+                SEND_BUTTON.disabled = true;
+            } else if (status === 'sending') {
+                SEND_BUTTON.innerHTML = "发送中";
+                SEND_BUTTON.disabled = true;
+            } else if (status === 'sendable') {
+                SEND_BUTTON.innerHTML = "发送";
+                SEND_BUTTON.disabled = false;
+            } else {
+                console.error('Invalid status');
+            }
+        }
         // 发送消息事件
         function sendMessage(event) {
             event.preventDefault();
@@ -150,9 +165,8 @@
             // 发送消息给服务端
             ws.send(message);
 
-            // 改变发送按钮状态
-            SEND_BUTTON.innerHTML = "思考...";
-            SEND_BUTTON.disabled = true;
+            // 修改按钮为思考中
+            updateSendButton("thinking")
 
             // 清空输入框
             MESSAGE_TEXT.value = "";
