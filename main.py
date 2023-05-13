@@ -117,5 +117,6 @@ async def websocket_endpoint(websocket: WebSocket):
 
 if __name__ == "__main__":
     import uvicorn
-
-    uvicorn.run(app, host="0.0.0.0", port=9000)
+    # https://github.com/encode/uvicorn/discussions/1529
+    # host=None监听IPv4+IPv6双栈：BUG(划掉), Feature!!!
+    uvicorn.run(app, host=None, port=9000)
